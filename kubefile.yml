@@ -1,34 +1,36 @@
---- 
-apiVersion: apps/v1 
-kind: Deployment 
-metadata: 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: addbook
-spec: 
+spec:
   replicas: 2
-  selector: 
-    matchLabels: 
+  selector:
+    matchLabels:
       app: addbook
-  template: 
-    metadata: 
-      labels: 
+  template:
+    metadata:
+      labels:
         app: addbook
-    spec: 
-      containers: 
-        - name: addbook1 
-          image: dhananjay129/addbook:latest 
-          ports: 
+    spec:
+      containers:
+        - name: addbook1
+          image: dhananjay129/addbook:latest
+          ports:
             - containerPort: 80
-          env: 
-            - name: PORT 
-              value: "80" --- 
-apiVersion: v1 
-kind: Service 
-metadata: 
+          env:
+            - name: PORT
+              value: "80"
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: addbook
-spec: 
-  type: NodePort 
-  ports: 
+spec:
+  type: NodePort
+  selector:
+    app: addbook
+  ports:
     - port: 80
       targetPort: 80
-  selector: 
-    app: addbook
+      nodePort: 30008    # optional: choose your own NodePort (default: auto)
